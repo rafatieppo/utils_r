@@ -1,0 +1,7 @@
+*WEATHER DATA : MTTA
+ 
+@ INSI LAT LONG ELEV TAV AMP REFHT WNDHT
+   MTTA -14.620 -57.490 387 -99 -99 -99 -99
+@DATE SRAD TMAX TMIN RAIN WIND DEWP VPRS RHUM
+Choose a table in the range from  1  to  2 .
+data frame with 0 columns and 0 rows

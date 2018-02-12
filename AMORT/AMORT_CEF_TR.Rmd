@@ -1,0 +1,204 @@
+--- 
+title: Simulação para financiamento CEF pelo sistema SAC
+author: Rafael Tieppo 
+date: 2017 - JAN 
+--- 
+
+O algorítimo realiza duas simulações, uma que desconsidera a **TR**, e
+outra que considera a **TR**. A diferença entre as simulações consiste
+no possível valor residual do financiamento, uma vez que a **CEF** não
+insere a **TR** simulação apresentada na proposta de contrato.
+
+Os valores da **TR** devem ser inseridos em um arquivo `.csv` com duas
+colunas, sendo que a primeira indica o mês e a segunda o valor da **TR**
+em porcentagem.
+
+```{r, echo = FALSE, results = 'markup', eval = FALSE}
+### Carregando a função
+# load("FINAN_CEF.RData")
+### save.image("FINAN_CEF.RData")
+library(ggplot2)
+library(gridExtra)
+library(knitr)
+library(dplyr)
+library(ggthemes)
+library(reshape2)
+```
+## Resumo da operação
+
+Simulação para o contrato número **xxxxxxx**.
+
+```{r, echo = FALSE, results = 'markup', eval = TRUE}
+TR_1 <- as.matrix(read.csv("TR.csv", header = FALSE))
+JURO_MES <- 100 * ((0.09 + 1)^(1/12) - 1) 
+PERIODO <- 20
+DATA <- AMORT_TR(10000, JURO_MES, PERIODO, TR_1)
+#edit(DATA)
+
+TABELA <- data.frame(Item = c("Valor do financiamento",
+                              "Taxa de juro a.m.",
+                              "Prazo",
+                              "Valor pago s/ TR",
+                              "Valor pago c/ TR",
+                              "Valor residual"),
+                     Valor = c(DATA[1,5],
+                               paste(round(JURO_MES, 2), "%"),
+                               paste(PERIODO, "meses", sep = " "),
+                               round(sum(DATA$PAY),2),
+                               round(sum(DATA$PAY_W_TR),2),
+                               round(DATA[nrow(DATA), 9],2)))
+
+kable(TABELA, format = 'markdown')
+```
+
+## Gráficos
+
+```{r, echo = FALSE, results = 'markup', eval = TRUE, fig.width=7, fig.height=5, fig.cap=""}
+
+PLOT_PAY <-
+    ggplot() +
+    geom_line(data = subset(DATA, n != 0),
+              aes(x = n,
+                  y = PAY,
+                  colour = "Sem TR")) +
+    geom_line(data = subset(DATA, n != 0),
+              aes(x = n,
+                  y = PAY_W_TR,
+                  colour = "Com TR")) +
+    xlab('Período') + ylab('Valor') +
+    scale_x_continuous(limits=c(1, nrow(DATA)),
+                       breaks=seq(0, nrow(DATA) ,12)) +
+    scale_y_continuous(limits=c(0, max(DATA$PAY * 1.15)),
+                       breaks=seq(0, max(DATA$PAY * 1.15), floor(0.1*max(DATA$PAY))))+ 
+    theme_bw () +
+    theme(axis.text.x = element_text(angle = 90))+
+    theme(legend.position = 'right') +
+    theme(text = element_text(size = 13))+
+    guides(colour = guide_legend(title = NULL)) +
+    ggtitle("Evolução do Valor da Parcela") 
+plot(PLOT_PAY)
+
+```
+
+```{r, echo = FALSE, results = 'markup', eval = TRUE, fig.width=7,fig.height=5, fig.cap=""}
+
+PLOT_BAL <-
+    ggplot() +
+    geom_line(data = subset(DATA, n != 0),
+              aes(x = n,
+                  y = BAL,
+                  colour = "Sem TR")) +
+    geom_line(data = subset(DATA, n != 0),
+              aes(x = n,
+                  y = BAL_W_TR,
+                  colour = "Com TR")) +
+    xlab('Período') + ylab('Valor') +
+    scale_x_continuous(limits=c(1, nrow(DATA)),
+                       breaks=seq(0, nrow(DATA) ,12)) +
+    scale_y_continuous(limits=c(0, max(DATA$BAL_W_TR * 1.15)),
+                       breaks=seq(0, max(DATA$BAL_W_TR * 1.15), floor(0.1*max(DATA$BAL_W_TR))))+ 
+    theme_bw () +
+    theme(axis.text.x = element_text(angle = 90))+
+    theme(legend.position = 'right') +
+    theme(text = element_text(size = 13))+
+    guides(colour = guide_legend(title = NULL)) +
+    ggtitle("Evolução do Valor do Saldo Devedor") 
+plot(PLOT_BAL)
+
+```
+
+## Detalhamento das parcelas
+
+```{r, echo = FALSE, results = 'markup', eval = TRUE}
+kable(DATA, format = 'markdown',
+      format.args = list(big.mark = ","),
+      digits = c(0, 2, 2, 2, 2, 2, 2, 2, 2))
+```
+
+```{r, echo = FALSE, results = 'markup', eval = FALSE}
+
+### Código da Função
+
+AMORT_TR <- function(PV, i, n, TR)
+ {
+#PV <- 130000
+#n <- 120          #months
+#i <- 0.72         # interest month (%)
+#TR <- matrix(c(seq(1,120), rep(0.01, 120)), 120, 2)
+#TR <- matrix(c(seq(1,10), runif(10, 0.01, 0.09)), 10, 2)
+#a
+###============================================================
+### SAC SYSTEM
+###============================================================
+       
+### Building matrix
+     MATRIX_SAC <- matrix(0, n + 1, 9)
+
+### Build TR matrix
+
+##### Test, if TR matrix has same lenght than n
+### keeps TR matrix, else
+### it fill TR matrix with the last number
+
+     ifelse(nrow(TR) == n,
+            print("TR OK1"),
+            MATRIX_TR <- matrix(c(seq((nrow(TR)+1), n),
+                                  rep(TR[nrow(TR), 2], (n - nrow(TR)))),
+                                (n - nrow(TR)), 2))
+
+     ifelse(nrow(TR) == n,
+            print("TR OK2"),
+            TR <- rbind(TR, MATRIX_TR))
+### end TR matrix
+###============================================================
+
+### Assign first row
+     MATRIX_SAC [1,5] <- PV 
+       
+### For the periodo ZERO balance is equal PV
+
+     BAL_SAC <- PV
+     BAL_W_TR <- PV
+
+     
+### AMORTization is constant
+
+     AMORT_SAC <- (PV / n)
+     
+     for (s in (2:(n+1)))
+         {
+         INT_SAC <- BAL_SAC * (i / 100)
+         PAY_SAC <- AMORT_SAC + INT_SAC
+         BAL_SAC <- BAL_SAC - AMORT_SAC
+
+         TR_COST <- BAL_W_TR * TR[(s - 1), 2] / 100
+         INT_W_TR<- (BAL_W_TR + TR_COST) * (i / 100)
+         PAY_W_TR<- AMORT_SAC + INT_W_TR
+         BAL_W_TR <- BAL_W_TR + TR_COST - AMORT_SAC 
+
+         MATRIX_SAC[s,1] <- s - 1
+         MATRIX_SAC[s,2] <- INT_SAC
+         MATRIX_SAC[s,3] <- AMORT_SAC
+         MATRIX_SAC[s,4] <- PAY_SAC
+         MATRIX_SAC[s,5] <- BAL_SAC
+         MATRIX_SAC[s,6] <- TR_COST
+         MATRIX_SAC[s,7] <- INT_W_TR
+         MATRIX_SAC[s,8] <- PAY_W_TR
+         MATRIX_SAC[s,9] <- BAL_W_TR
+         }
+       
+      FRAME_SAC <- data.frame(n = MATRIX_SAC[,1],
+                              I = MATRIX_SAC[,2],
+                              AMORT = MATRIX_SAC[,3],
+                              PAY      = MATRIX_SAC[,4],
+                              BAL      = MATRIX_SAC[,5],
+                              TR      = MATRIX_SAC[,6],
+                              i_W_TR     = MATRIX_SAC[,7],
+                              PAY_W_TR     = MATRIX_SAC[,8],
+                              BAL_W_TR     = MATRIX_SAC[,9])
+      return(FRAME_SAC) 
+      
+ }
+knit("FINAN_CEF.Rmd")
+```
+
