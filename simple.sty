@@ -1,0 +1,89 @@
+%\documentclass[11pt]{article} %Sets the default text size to 11pt and class to article.
+%------------------------Dimensions--------------------------------------------
+\usepackage{scrextend}
+%\changefontsizes[12pt]{12pt}
+\KOMAoption{fontsize}{12pt}
+\usepackage[brazil, brazilian]{babel} %permite acentuacao automatica para o Portugues do Brasil e hifenizacao
+\usepackage[utf8]{inputenc} % Coloca acentos latinoss
+\pagestyle{myheadings}{}          % Definindo cabecalho
+\setlength{\headheight}{0.1cm}    % Altura (comprimento) do cabecalho (n. da pagina)
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry} % deve-se colocar esse pacote apos a definicao do cabecalho, senao a margem superior fica errada
+\usepackage{lscape} %deixa tabelas na horizontal
+\usepackage{enumerate}
+\usepackage{scalefnt}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{here}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+
+
+
+\usepackage{boxedminipage} %It will create a nice pseudo page environment with a border within your actual page.
+% Consultei isso em 29-09-11, em: http://www.terminally-incoherent.com/blog/2007/02/04/latex-making-floatng-text-boxes/
+
+\usepackage{courier} % usa o Adobe Courier no lugar de Computer Modern Typewriter
+
+\raggedbottom % If latex can't fill a page (perhaps because the next object is a figure or table that doesn't fit, or because the next object is a heading that latex doesn't want to put at the foot of a page) then by default it will spread the vertical white space on the page so that the "height" of the page is the default height. If you want all the extra white space to appear at the bottom of such pages, add \raggedbottom before your \begin{document} line. http://www.eng.cam.ac.uk/help/tpl/textprocessing/squeeze.html
+
+
+\usepackage{tabularx}
+
+\usepackage{booktabs} %This package provide some additional commands to enhance the quality of tables in LaTeX. Guidelines are given as to what constitutes a good table in this context. // coloquei aqui em 04-10-11 / http://ctan.org/tex-archive/macros/latex/contrib/booktabs/
+\renewcommand {\heavyrulewidth}{0.7pt} %http://www.cnblogs.com/wanderxjtu/archive/2009/06/17/1505309.html
+\renewcommand {\lightrulewidth}{0.5pt}
+
+
+\usepackage{multicol}
+
+\usepackage[nooneline, hang, small, labelsep=endash]{caption} % O Caption ta na versao 3, com mais opcoes. Entao nao precisa aquela gambiarra toda de modificar o pacote.
+
+\usepackage{setspace} %Provides support for setting the spacing between lines in a document. Package options include singlespacing, onehalfspacing, and doublespacing. Alternatively the spacing can be changed as required with the \singlespacing, \onehalfspacing, and \doublespacing commands. Other size spacings also available.
+% Obs.: Efeitos praticos: Aumenta o espaco entre o texto e uma equacao, diminui o espaco entre linhas no caption das figuras. Mais algum efeito diferente?
+\setstretch{1.0}
+
+
+\usepackage{fancyhdr} %para trabalhar com rodapé e cabeçalho
+\pagestyle{fancy}
+\fancyhf{} % sets both header and footer to nothing no lines
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LO, CO, RO, LE, CE, RE]{}
+\fancyfoot[RO,RE]{\thepage} % O=odd impar E = even par
+\fancyfoot[CO,CE]{}
+
+%\setcounter{secnumdepth}{5}
+
+
+%\newcommand{\sectionbreak}{\clearpage}
+%\RequirePackage[loadonly]{titlesec}
+%\usepackage[small,compact]{titlesec}
+
+%\usepackage{titlesec} % Controla a aparencia das secoes, subsecoes, etc.
+%\newcommand*{\justifyheading}{\raggedright}
+%\titleformat{\section}{\justifyheading\normalfont\normalsize\bfseries}{\thesection}{1em}{}
+%\titleformat{\subsection}{\justifyheading\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+%\titleformat{\subsubsection}{\justifyheading\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+%\titleformat{\paragraph}{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+%\titleformat{\subparagraph}{\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+
+% To set section heading spacings
+%\titlespacing*{\section}      {0pt}{1.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+%\titlespacing*{\subsection}   {0pt}{1.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+%\titlespacing*{\subsubsection}{0pt}{1.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+%\titlespacing*{\paragraph}    {0pt}{1.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+%\titlespacing*{\subparagraph} {0pt}{1.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+
+
+%\usepackage{titletoc} % Controla a aparencia dos itens no sumario
+%\titlecontents{section}[0em]{}{\thecontentslabel\quad\MakeUppercase}{}{\dotfill\contentspage}
+%\titlecontents{subsection}[0em]{}{\thecontentslabel\quad}{}{\dotfill\contentspage}
+%\titlecontents{subsubsection}[0em]{}{\thecontentslabel\quad}{}{\dotfill\contentspage}
+%\titlecontents{paragraph}[0em]{}{\thecontentslabel\quad}{}{\dotfill\contentspage}
+%\titlecontents{subparagraph}[0em]{}{\thecontentslabel\quad}{}{\dotfill\contentspage}
+
+\setlength{\parindent}{1.5cm}        % Definindo tamanho da identacao dos paragrafos (primeira linha). Pod ser 0.0cm se preferir
+\RequirePackage{indentfirst}         % Determina que o primeiro paragrafo de cada secao tb possua identacao
+\setlength{\topskip}{0cm}            % Distancia do inicio da margem superior a primeira linha

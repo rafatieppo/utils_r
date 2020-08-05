@@ -1,0 +1,92 @@
+\usepackage{scrextend}
+\changefontsizes[12pt]{12pt}
+\usepackage[brazil, brazilian]{babel} %permite acentuacao automatica para o Portugues do Brasil e hifenizacao
+\usepackage[utf8]{inputenc} % Coloca acentos latinoss
+%\usepackage[alf,abnt-repeated-title-omit=yes,abnt-show-options=warn,abnt-emphasize=bf,abnt-etal-list=0]{abntcite}
+%\usepackage{minted}
+%\usemintedstyle{espresso}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Margens
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{myheadings}{}          % Definindo cabecalho
+\setlength{\headheight}{0.1cm}    % Altura (comprimento) do cabecalho (n. da pagina)
+%\usepackage[a4paper]{geometry} % deve-se colocar esse pacote apos a definicao do cabecalho, senao a margem superior fica errada
+\usepackage[a4paper, top=1.5cm, bottom=2.5cm, left=3cm, right=2.5cm, includehead, headheight = 17mm,
+  footskip = \dimexpr\headsep+\ht\strutbox\relax,
+  tmargin = 0mm,
+  bmargin = \dimexpr17mm+3\ht\strutbox\relax]{geometry} % deve-se colocar esse pacote apos a definicao do cabecalho, senao a margem superior fica errada
+\usepackage{lscape} %deixa tabelas na horizontal
+\usepackage{enumerate}
+\usepackage{scalefnt}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+%\usepackage{Here}
+\usepackage{here}
+%\usepackage{HERE}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+%\usepackage{minted}
+%\usepackage{listings}
+\usepackage{lastpage}
+
+\usepackage{boxedminipage} %It will create a nice pseudo page environment with a border within your actual page.
+% Consultei isso em 29-09-11, em: http://www.terminally-incoherent.com/blog/2007/02/04/latex-making-floatng-text-boxes/
+
+\usepackage{courier} % usa o Adobe Courier no lugar de Computer Modern Typewriter
+
+\raggedbottom % If latex can't fill a page (perhaps because the next object is a figure or table that doesn't fit, or because the next object is a heading that latex doesn't want to put at the foot of a page) then by default it will spread the vertical white space on the page so that the "height" of the page is the default height. If you want all the extra white space to appear at the bottom of such pages, add \raggedbottom before your \begin{document} line. http://www.eng.cam.ac.uk/help/tpl/textprocessing/squeeze.html
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TABELAS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tabularx}
+\usepackage{booktabs} %This package provide some additional commands to enhance the quality of tables in LaTeX. Guidelines are given as to what constitutes a good table in this context. // coloquei aqui em 04-10-11 / http://ctan.org/tex-archive/macros/latex/contrib/booktabs/
+\renewcommand {\heavyrulewidth}{1.0pt} %http://www.cnblogs.com/wanderxjtu/archive/2009/06/17/1505309.html
+\renewcommand {\lightrulewidth}{1.0pt}
+\usepackage{multicol}
+\usepackage[nooneline, hang, small, labelsep=endash]{caption} % O Caption ta na versao 3, com mais opcoes. Entao nao precisa aquela gambiarra toda de modificar o pacote.
+\usepackage{setspace} %Provides support for setting the spacing between lines in a document. Package options include singlespacing, onehalfspacing, and doublespacing. Alternatively the spacing can be changed as required with the \singlespacing, \onehalfspacing, and \doublespacing commands. Other size spacings also available.
+% Obs.: Efeitos praticos: Aumenta o espaco entre o texto e uma equacao, diminui o espaco entre linhas no caption das figuras. Mais algum efeito diferente?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Espaçamento entre linhas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setstretch{1.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CABECALHO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr} %para trabalhar com rodapé e cabeçalho
+\pagestyle{fancy}
+\fancyhf{} % sets both header and footer to be empty
+%\setlength\headheight{40pt}
+
+%\fancyhead[LO, CO, RO, LE, CE, RE]{}
+%\fancyfoot[RO,RE]{\thepage} % O=odd impar E = even par
+%%%%%%%% ONLY For the First PAge %%%%%%%%%%%%%%%%%%
+%\includegraphics[height=2.09cm, width=4.59cm]{/home/rafatieppo/Dropbox/STY/LOGO_PE2SA_TRATOR.png}
+%\fancypagestyle{plain}{\fancyhf{}\fancyhead[L]{Geoprocessamento}
+%                                 %\fancyhead[LO, LE]{\leftmark}
+%                                 \fancyfoot[CO,CE]{UNEMAT - Tangará da Serra - Departamento de Agronomia\\ \url{http://pesquisa.unemat.br/geoclimamt/} }
+%                                                \fancyfoot[RO,LE]{\thepage/\pageref{LastPage}}}
+% 
+%%%%%%%%% For the all pages, but not to FIRST page %%%%%
+%%\includegraphics[height=2.09cm, width=4.59cm]{/home/rafatieppo/Dropbox/STY/LOGO_PE2SA_TRATOR.png}
+% 
+%\fancyhf{}\fancyhead[L]{Geoprocessamento}
+%                                                %\fancyhead[RO, RE]{\leftmark}
+%                                                \fancyfoot[CO,CE]{UNEMAT - Tangará da Serra - Departamento de Agronomia \\ \url{http://pesquisa.unemat.br/geoclimamt/} }
+%                                                \fancyfoot[RO,LE]{\thepage/\pageref{LastPage}}
+
+
+\renewcommand{\headrulewidth}{0.4pt}% Line at the header invisible
+\renewcommand{\footrulewidth}{0.4pt}% Line at the footer visible
+
+
+\setlength{\parindent}{2.0cm}        % Definindo tamanho da identacao dos paragrafos (primeira linha). Pod ser 0.0cm se preferir
+\RequirePackage{indentfirst}         % Determina que o primeiro paragrafo de cada secao tb possua identacao
+\setlength{\topskip}{0cm}            % Distancia do inicio da margem superior a primeira linha
