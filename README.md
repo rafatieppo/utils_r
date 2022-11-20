@@ -40,5 +40,5 @@ Este repositório cotém um conjunto de funções desenvolvidas em **R**. A desc
 - Monta uma matriz para representar um polígono oriundo da função `tile.list(VORONOI)`. 
 - README.md (portuguese)
 
-
+## TEST FOR TABLET
 
